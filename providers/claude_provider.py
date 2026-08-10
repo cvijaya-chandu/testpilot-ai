@@ -20,7 +20,7 @@ class ClaudeProvider:
                         "content": prompt
                     }
                 ]
-                response = self.client.messages.create(model="claude-sonnet-5",messages=messages,max_tokens=1000)
+                response = self.client.messages.create(model="claude-sonnet-5",messages=messages,max_tokens=3000)
                 return response
 
         except Exception as e:

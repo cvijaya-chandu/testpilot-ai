@@ -1,13 +1,10 @@
-from providers.claude_provider import ClaudeProvider
-
 
 
 class TestCaseService:
-    def __init__(self):
-        self.claude_provider = ClaudeProvider()
+    def __init__(self,provider):
+        self.provider = provider
 
     def generate_testcases(self,requirement):
-        # prompt = "You are a QA engineer. Generate test cases for the following requirement: " + requirement
         prompt = f""" 
         You are a Senior QA Engineer 
         Analyze the given requirement and generate test cases in the specified format.
@@ -34,5 +31,5 @@ class TestCaseService:
         {requirement}"""
         if not requirement or not requirement.strip():
             raise ValueError("Requirement is mandatory")
-        response = self.claude_provider.generate(prompt)
+        response = self.provider.generate(prompt)
         return response

@@ -12,13 +12,13 @@ class ClaudeProvider:
     def generate(self, prompt):
             if not prompt or not prompt.strip():
                 raise ValueError("Prompt cannot be empty")
-            messages = [
+            data = [
                     {
                         "role": "user",
                         "content": prompt
                     }
                 ]
-            response = self.client.messages.create(model="claude-sonnet-5",messages=messages,max_tokens=5000)
+            response = self.client.messages.create(model="claude-sonnet-5",messages=data,max_tokens=5000)
             for block in response.content:
                 if block.type == "text":
                     if not block.text:

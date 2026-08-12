@@ -10,18 +10,18 @@ class ClaudeProvider:
         self.client = Anthropic(api_key=self.api_key)
 
     def generate(self, prompt):
-        try:
             if not prompt or not prompt.strip():
-                return f'prompt cannot be empty'
-            else:
-                messages = [
+                raise ValueError("Prompt cannot be empty")
+            messages = [
                     {
                         "role": "user",
                         "content": prompt
                     }
                 ]
-                response = self.client.messages.create(model="claude-sonnet-5",messages=messages,max_tokens=3000)
-                return response
-
-        except Exception as e:
-            raise
+            response = self.client.messages.create(model="claude-sonnet-5",messages=messages,max_tokens=5000)
+            for block in response.content:
+                if block.type == "text":
+                    if not block.text:
+                        raise ValueError("Response text is empty")
+                    return block.text
+            raise ValueError("No text response received from Claude")

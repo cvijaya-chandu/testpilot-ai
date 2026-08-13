@@ -16,11 +16,12 @@ def main():
             raise ValueError("Invalid ai_provider")
         obj = TestCaseService(provider)
         response = obj.generate_testcases(requirement)
-        filename = f"{ai_provider}_testcases.txt"
-        save_testcase(filename,response)
+        # filename = f"{ai_provider}_testcases.txt"
+        # save_testcase(filename,response)
+        print(response)
     except Exception as e:
         print(e)
 
 if __name__ == "__main__":
     main()
-
+obj = TestCaseService(ClaudeProvider())

@@ -9,7 +9,7 @@ class ClaudeProvider:
         self.api_key = os.getenv("ANTHROPIC_API_KEY")
         self.client = Anthropic(api_key=self.api_key)
 
-    def generate(self, prompt):
+    def get_response(self, prompt):
             if not prompt or not prompt.strip():
                 raise ValueError("Prompt cannot be empty")
             data = [

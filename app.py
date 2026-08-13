@@ -6,7 +6,7 @@ from providers.openai_provider import OpenAIProvider
 def main():
     print("Welcome to TestPilot AI")
     requirement = "User should be able to login using username and password"
-    ai_provider = input("Select AI provider (claude/openai): ").lower()
+    ai_provider = input("Select AI provider:(claude/openai): ").lower()
     try:
         if ai_provider == "claude":
             provider = ClaudeProvider()
@@ -15,7 +15,19 @@ def main():
         else:
             raise ValueError("Invalid ai_provider")
         obj = TestCaseService(provider)
-        response = obj.generate_testcases(requirement)
+        operation = input(
+            "Select operation: (generate/analyze/negativetests): "
+        ).strip().lower()
+        if operation == "generate":
+            response = obj.generate_testcases(requirement)
+        elif operation == "analyze":
+            response = obj.analyze_requirement(requirement)
+        elif operation == "negativetests":
+            response = obj.generate_negative_testcases(requirement)
+        else:
+            print("Invalid operation")
+            return
+        # response = obj.generate_testcases(requirement)
         # filename = f"{ai_provider}_testcases.txt"
         # save_testcase(filename,response)
         print(response)

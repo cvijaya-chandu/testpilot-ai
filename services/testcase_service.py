@@ -1,50 +1,35 @@
 import json
-
+from prompts.test_case_prompt import build_testcase_prompt
+from prompts.requirement_analysis_prompt import build_requirement_analysis_prompt
+from prompts.negative_test_prompt import negative_testcase_prompt
 
 class TestCaseService:
     def __init__(self,provider):
         self.provider = provider
 
     def generate_testcases(self,requirement):
-        prompt = f""" 
-        You are a Senior QA Engineer 
-        Analyze the given requirement and generate test cases in the specified format.
-        Each test case must contain:
-        - Test Case ID
-        - Description
-        - Priority
-        - Pre-requisite
-        - Steps
-        - Expected Result 
-        Generate exactly 15 test cases:
-        - P1: 5 test cases
-        - P2: 6 test cases
-        - P3: 4 test cases
-        Cover all relevant test scenarios, including:
-        - Positive
-        - Negative
-        - Boundary / Edge cases
-        - Security
-        - UI/UX
-        - Performance
-        Do not invent or assume any functionality that is not explicitly mentioned in the requirement.
-        Return only valid JSON.
-        Do not include markdown code fences, backticks, or the word json outside the JSON object.
-        Use the following JSON keys:
-        test_cases
-        id
-        description
-        priority
-        pre_requisite
-        steps
-        expected_result
-        Requirement:
-        {requirement}"""
+        prompt = build_testcase_prompt(requirement)
         if not requirement or not requirement.strip():
             raise ValueError("Requirement is mandatory")
         response = self.provider.get_response(prompt)
         response_json = json.loads(response)
         self.validate_testcases(response_json)
+        return response_json
+
+    def analyze_requirement(self, requirement):
+        if not requirement or not requirement.strip():
+            raise ValueError("Requirement cannot be empty")
+        prompt = build_requirement_analysis_prompt(requirement)
+        response = self.provider.get_response(prompt)
+        response_json = json.loads(response)
+        return response_json
+
+    def generate_negative_testcases(self, requirement):
+        if not requirement or not requirement.strip():
+            raise ValueError("Requirement cannot be empty")
+        prompt = negative_testcase_prompt(requirement)
+        response = self.provider.get_response(prompt)
+        response_json = json.loads(response)
         return response_json
 
     def validate_testcases(self, data):

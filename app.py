@@ -1,3 +1,5 @@
+from pip._internal.resolution.resolvelib import provider
+
 from providers.claude_provider import ClaudeProvider
 from services.testcase_service import TestCaseService
 from utils.file_utils import save_testcase
@@ -36,4 +38,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-obj = TestCaseService(ClaudeProvider())

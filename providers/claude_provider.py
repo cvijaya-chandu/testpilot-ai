@@ -18,7 +18,8 @@ class ClaudeProvider:
                         "content": prompt
                     }
                 ]
-            response = self.client.messages.create(model="claude-sonnet-5",messages=data,max_tokens=5000)
+            response = self.client.messages.create(model="claude-sonnet-5",system="""You are a Senior QA Engineer.
+Do not invent or assume any functionality that is not explicitly mentioned in the requirement.""",messages=data,max_tokens=5000,temperature=1.0)
             for block in response.content:
                 if block.type == "text":
                     if not block.text:

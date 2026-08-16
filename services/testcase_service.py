@@ -12,6 +12,7 @@ class TestCaseService:
         if not requirement or not requirement.strip():
             raise ValueError("Requirement is mandatory")
         response = self.provider.get_response(prompt)
+        print(response)
         response_json = json.loads(response)
         self.validate_testcases(response_json)
         return response_json

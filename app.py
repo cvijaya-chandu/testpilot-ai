@@ -1,9 +1,10 @@
-from pip._internal.resolution.resolvelib import provider
+
 
 from providers.claude_provider import ClaudeProvider
 from services.testcase_service import TestCaseService
 from utils.file_utils import save_testcase
 from providers.openai_provider import OpenAIProvider
+from services.eval_service import EvalService
 
 def main():
     print("Welcome to TestPilot AI")
@@ -22,17 +23,18 @@ def main():
         ).strip().lower()
         if operation == "generate":
             response = obj.generate_testcases(requirement)
+            eval_service = EvalService(provider)
+            evaluation = eval_service.evaluate(requirement, response)
+            print(evaluation)
         elif operation == "analyze":
             response = obj.analyze_requirement(requirement)
         elif operation == "negativetests":
             response = obj.generate_negative_testcases(requirement)
         else:
             print("Invalid operation")
-            return
         # response = obj.generate_testcases(requirement)
         # filename = f"{ai_provider}_testcases.txt"
         # save_testcase(filename,response)
-        print(response)
     except Exception as e:
         print(e)
 

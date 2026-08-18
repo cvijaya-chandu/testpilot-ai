@@ -32,9 +32,8 @@ def main():
             response = obj.generate_negative_testcases(requirement)
         else:
             print("Invalid operation")
-        # response = obj.generate_testcases(requirement)
-        # filename = f"{ai_provider}_testcases.txt"
-        # save_testcase(filename,response)
+        filename = f"{ai_provider}_testcases.csv"
+        save_testcase(filename,response)
     except Exception as e:
         print(e)
 
